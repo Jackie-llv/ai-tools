@@ -38,5 +38,5 @@ export const useGenerateResult = () => {
     }
   }
 
-  return { generate }
+  return { generatedResults, generate }
 }

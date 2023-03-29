@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useGenerateResult } from '@/hooks/useGenerateResult'
 import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
@@ -44,32 +44,21 @@ const parseMarkdown = (text: string, streaming = false) => {
 }
 
 export default function Chat() {
-  const [msgList, setMsgList] = useState<MsgInfo[]>([]);
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const { generate } = useGenerateResult()
+  const [sendMsg, setSendMsg] = useState('')
+  const { generatedResults, generate } = useGenerateResult()
   
   const send = async () => {
     if (loading) {
       return;
     }
-    const list = [...msgList]
     setLoading(true)
-    list.push({
-      role: 'user',
-      msg: inputValue
-    })
-    setMsgList(list)
-    setInputValue('')
+    setSendMsg(inputValue)
     // 请求
-    const res: any = await generate({ userInput: inputValue })
-    console.log(res);
-    
-    list.push({
-      role: 'assistant',
-      msg: res
-    })
+    await generate({ userInput: inputValue })
     setLoading(false)
+    setInputValue('')
   }
 
   return (
@@ -84,28 +73,25 @@ export default function Chat() {
         <p className='text-3xl font-medium mb-1'>ChatGPT</p>
         <p className='text-gray-500'>Talk to ChatGPT</p>
         <div className='py-8'>
-          {
-            msgList?.map((item: MsgInfo, index: number) => {
-              return item.role === 'user' ? <div className='flex justify-end gap-2 items-start my-4' key={index}>
-                <div className='p-3 rounded-b-lg rounded-tl-lg overflow-auto bg-green-300 text-gray-900 ml-8'>
-                  <p>{item.msg}</p>
-                </div>
-                <div>
-                  <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/user.svg" alt="" />
-                </div>
-              </div> : <div className='flex justify-start gap-2 items-start py-1 my-4' key={index}>
-                <div>
-                  <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/robot.svg" alt="" />
-                </div>
-                <div className='p-3 rounded-b-lg rounded-tr-lg overflow-auto bg-gray-200 text-gray-900 mr-8'>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: parseMarkdown(item.msg),
-                    }}></div>
-                </div>
-              </div>
-            })
-          }
+          <div className='flex justify-end gap-2 items-start my-4'>
+            <div className='p-3 rounded-b-lg rounded-tl-lg overflow-auto bg-green-300 text-gray-900 ml-8'>
+              <p>{sendMsg}</p>
+            </div>
+            <div>
+              <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/user.svg" alt="" />
+            </div>
+          </div>
+          <div className='flex justify-start gap-2 items-start py-1 my-4'>
+            <div>
+              <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/robot.svg" alt="" />
+            </div>
+            <div className='p-3 rounded-b-lg rounded-tr-lg overflow-auto bg-gray-200 text-gray-900 mr-8'>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: parseMarkdown(generatedResults),
+                }}></div>
+            </div>
+          </div>
         </div>
         <div className='relative'>
           <textarea
