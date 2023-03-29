@@ -62,7 +62,7 @@ export default function Chat() {
     setMsgList(list)
     setInputValue('')
     // 请求
-    const res = await generate({ userInput: inputValue })
+    const res: any = await generate({ userInput: inputValue })
     console.log(res);
     
     list.push({
