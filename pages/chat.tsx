@@ -47,7 +47,7 @@ export default function Chat() {
   const [msgList, setMsgList] = useState<MsgInfo[]>([]);
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const { generatedResults, generate } = useGenerateResult()
+  const { generate } = useGenerateResult()
   
   const send = async () => {
     if (loading) {
@@ -62,10 +62,12 @@ export default function Chat() {
     setMsgList(list)
     setInputValue('')
     // 请求
-    await generate({ userInput: inputValue })
+    const res = await generate({ userInput: inputValue })
+    console.log(res);
+    
     list.push({
       role: 'assistant',
-      msg: generatedResults
+      msg: res
     })
     setLoading(false)
   }

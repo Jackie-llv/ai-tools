@@ -34,8 +34,9 @@ export const useGenerateResult = () => {
       done = doneReading
       const chunkValue = decoder.decode(value)
       setGeneratedResults((prev) => prev + chunkValue)
+      return generatedResults + chunkValue;
     }
   }
 
-  return { generatedResults, generate }
+  return { generate }
 }
