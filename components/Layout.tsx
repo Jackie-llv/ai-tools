@@ -1,5 +1,5 @@
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/Header'
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 
 const Layout = (props: { children?: JSX.Element | JSX.Element[] }) => {
   return (
