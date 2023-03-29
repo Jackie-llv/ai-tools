@@ -63,6 +63,10 @@ export default function Chat() {
     setInputValue('')
     // 请求
     await generate({ userInput: inputValue })
+    list.push({
+      role: 'assistant',
+      msg: generatedResults
+    })
     setLoading(false)
   }
 
@@ -79,7 +83,7 @@ export default function Chat() {
         <p className='text-gray-500'>Talk to ChatGPT</p>
         <div className='py-8'>
           {
-            msgList?.map((item, index) => {
+            msgList?.map((item: MsgInfo, index: number) => {
               return item.role === 'user' ? <div className='flex justify-end gap-2 items-start my-4' key={index}>
                 <div className='p-3 rounded-b-lg rounded-tl-lg overflow-auto bg-green-300 text-gray-900 ml-8'>
                   <p>{item.msg}</p>
@@ -94,7 +98,7 @@ export default function Chat() {
                 <div className='p-3 rounded-b-lg rounded-tr-lg overflow-auto bg-gray-200 text-gray-900 mr-8'>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: parseMarkdown(generatedResults),
+                      __html: parseMarkdown(item.msg),
                     }}></div>
                 </div>
               </div>
