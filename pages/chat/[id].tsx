@@ -60,11 +60,14 @@ export default function Chat() {
     generate([
       { role: 'system', content: '你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中html相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续下一道。如果我表示我不知道答案，那么你就直接告诉我，然后问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题）'}
     ]).then(() => {
-      setMsgList([
-        { role: 'system', content: '你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中html相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续下一道。如果我表示我不知道答案，那么你就直接告诉我，然后问下一道题，接下来就直接开始，首先你先做一个自我介绍，说你是前端面试官，然后就请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题）'},
-        { role: 'assistant', content: generatedResults[generatedResults.length - 1] }
-      ])
-      setLoading(false);
+      setTimeout(() => {
+        console.log(generatedResults);
+        setMsgList([
+          { role: 'system', content: '你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中html相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续下一道。如果我表示我不知道答案，那么你就直接告诉我，然后问下一道题，接下来就直接开始，首先你先做一个自我介绍，说你是前端面试官，然后就请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题）'},
+          { role: 'assistant', content: generatedResults[generatedResults.length - 1] }
+        ])
+        setLoading(false);
+      }, 0)
     })
   }, [])
   
