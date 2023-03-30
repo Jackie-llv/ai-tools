@@ -11,7 +11,7 @@ interface MsgInfo {
 
 const parseMarkdown = (text: string, streaming = false) => {  
   if (!text) {
-    return;
+    return '';
   }
   text = text?.trim()
   let cursorAdded = false
