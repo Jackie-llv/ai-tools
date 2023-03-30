@@ -10,6 +10,8 @@ interface MsgInfo {
 }
 
 const parseMarkdown = (text: string, streaming = false) => {
+  console.log(text);
+  
   text = text.trim()
   let cursorAdded = false
   // workaround for incomplete code, closing the block if it's not closed
@@ -73,15 +75,15 @@ export default function Chat() {
         <p className='text-3xl font-medium mb-1'>ChatGPT</p>
         <p className='text-gray-500'>Talk to ChatGPT</p>
         <div className='py-8'>
-          <div className='flex justify-end gap-2 items-start my-4'>
+          {sendMsg && <div className='flex justify-end gap-2 items-start my-4'>
             <div className='p-3 rounded-b-lg rounded-tl-lg overflow-auto bg-green-300 text-gray-900 ml-8'>
               <p>{sendMsg}</p>
             </div>
             <div>
               <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/user.svg" alt="" />
             </div>
-          </div>
-          <div className='flex justify-start gap-2 items-start py-1 my-4'>
+          </div>}
+          {generatedResults && <div className='flex justify-start gap-2 items-start py-1 my-4'>
             <div>
               <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/robot.svg" alt="" />
             </div>
@@ -91,7 +93,7 @@ export default function Chat() {
                   __html: parseMarkdown(generatedResults),
                 }}></div>
             </div>
-          </div>
+          </div>}
         </div>
         <div className='relative'>
           <textarea
