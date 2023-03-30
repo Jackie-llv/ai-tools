@@ -57,10 +57,10 @@ export default function Chat() {
     }
     setLoading(true)
     setSendMsg(inputValue)
+    setInputValue('')
     // 请求
     await generate({ userInput: inputValue })
     setLoading(false)
-    setInputValue('')
   }
 
   return (
