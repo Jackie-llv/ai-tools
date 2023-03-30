@@ -10,6 +10,12 @@ export const useGenerateResult = () => {
   async function generate(body: params[]) {
     // setGeneratedResults('')
 
+    body.forEach((item, index) => {
+      if (item.role === 'assistant' && !item.content) {
+        item.content = generatedResults[index - 1]
+      }
+    })
+
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
