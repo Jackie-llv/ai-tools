@@ -9,16 +9,14 @@ interface MsgInfo {
   msg: string
 }
 
-const parseMarkdown = (text: string, streaming = false) => {
-  console.log(text);
-  
-  text = text.trim()
+const parseMarkdown = (text: string, streaming = false) => {  
+  text = text?.trim()
   let cursorAdded = false
   // workaround for incomplete code, closing the block if it's not closed
   // First, count occurrences of "```" in the text
-  const codeBlockCount = (text.match(/```/g) || []).length
+  const codeBlockCount = (text?.match(/```/g) || []).length
   // If the count is odd and the text doesn't end with "```", add a closing block
-  if (codeBlockCount % 2 === 1 && !text.endsWith('```')) {
+  if (codeBlockCount % 2 === 1 && !text?.endsWith('```')) {
     if (streaming) {
       text += '█\n```'
       cursorAdded = true
@@ -28,7 +26,7 @@ const parseMarkdown = (text: string, streaming = false) => {
   }
   if (codeBlockCount) {
     // make sure the last "```" is on a newline
-    text = text.replace(/```$/, '\n```')
+    text = text?.replace(/```$/, '\n```')
   }
   if (streaming && !cursorAdded) {
     text += '█'
