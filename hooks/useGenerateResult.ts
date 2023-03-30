@@ -25,6 +25,8 @@ export const useGenerateResult = () => {
       return
     }
 
+    console.log(data, '---data');
+    
     const reader = data.getReader()
     const decoder = new TextDecoder()
     let done = false
@@ -33,8 +35,9 @@ export const useGenerateResult = () => {
       const { value, done: doneReading } = await reader.read()
       done = doneReading
       const chunkValue = decoder.decode(value)
+      console.log(chunkValue, '---chunkValue');
+      
       setGeneratedResults((prev) => prev + chunkValue)
-      return generatedResults + chunkValue;
     }
   }
 
