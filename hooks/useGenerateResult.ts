@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
 type params = {
-  userInput: string
+  content: string
+  role: string
 }
 
 export const useGenerateResult = () => {
   const [generatedResults, setGeneratedResults] = useState<string[]>([])
-
-  async function generate(body: params) {
+  async function generate(body: params[]) {
     // setGeneratedResults('')
 
     const response = await fetch('/api/chat', {
@@ -37,11 +37,7 @@ export const useGenerateResult = () => {
       done = doneReading
       const chunkValue = decoder.decode(value) 
       res += chunkValue
-      console.log(res, '---res');
-      
       list[len] = res
-      console.log(list, '---list');
-      
       setGeneratedResults([...list])
     }
   }
