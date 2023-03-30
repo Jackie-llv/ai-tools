@@ -71,7 +71,7 @@ export default function Chat() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.png" />
       </Head>
-      <main className='pt-8 md:pt-14 lg:pt-24 px-8 md:px-28 lg:px-36'>
+      <main className='pt-8 pb-8 md:pt-14 lg:pt-24 px-8 md:px-28 lg:px-36'>
         <p className='text-3xl font-medium mb-1'>ChatGPT</p>
         <p className='text-gray-500'>Talk to ChatGPT</p>
         <div className='py-8'>
