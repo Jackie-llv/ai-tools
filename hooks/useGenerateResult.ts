@@ -24,8 +24,6 @@ export const useGenerateResult = () => {
     if (!data) {
       return
     }
-
-    console.log(data, '---data');
     
     const reader = data.getReader()
     const decoder = new TextDecoder()
