@@ -5,10 +5,10 @@ type params = {
 }
 
 export const useGenerateResult = () => {
-  const [generatedResults, setGeneratedResults] = useState<string>('')
+  const [generatedResults, setGeneratedResults] = useState<string[]>([])
 
   async function generate(body: params) {
-    setGeneratedResults('')
+    // setGeneratedResults('')
 
     const response = await fetch('/api/chat', {
       method: 'POST',
@@ -27,13 +27,22 @@ export const useGenerateResult = () => {
     
     const reader = data.getReader()
     const decoder = new TextDecoder()
+    const list = [...generatedResults]
+    let res = ''
+    let len = generatedResults.length
     let done = false
 
     while (!done) {
       const { value, done: doneReading } = await reader.read()
       done = doneReading
-      const chunkValue = decoder.decode(value)      
-      setGeneratedResults((prev) => prev + chunkValue)
+      const chunkValue = decoder.decode(value) 
+      res += chunkValue
+      console.log(res, '---res');
+      
+      list[len] = res
+      console.log(list, '---list');
+      
+      setGeneratedResults([...list])
     }
   }
 

@@ -48,15 +48,17 @@ const parseMarkdown = (text: string, streaming = false) => {
 export default function Chat() {
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sendMsg, setSendMsg] = useState('')
+  const [sendMsg, setSendMsg] = useState<string[]>([])
   const { generatedResults, generate } = useGenerateResult()
   
   const send = async () => {
     if (loading) {
       return;
     }
+    const msgs = [...sendMsg]
     setLoading(true)
-    setSendMsg(inputValue)
+    msgs.push(inputValue)
+    setSendMsg(msgs)
     setInputValue('')
     // 请求
     await generate({ userInput: inputValue })
@@ -75,7 +77,35 @@ export default function Chat() {
         <p className='text-3xl font-medium mb-1'>ChatGPT</p>
         <p className='text-gray-500'>Talk to ChatGPT</p>
         <div className='py-8'>
-          {sendMsg && <div className='flex justify-end gap-2 items-start my-4'>
+          {
+            sendMsg.map((item, index) => {
+              return (
+                <>
+                  <div className='flex justify-end gap-2 items-start my-4'>
+                    <div className='p-3 rounded-b-lg rounded-tl-lg overflow-auto bg-green-300 text-gray-900 ml-8'>
+                      <p>{item}</p>
+                    </div>
+                    <div>
+                      <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/user.svg" alt="" />
+                    </div>
+                  </div>
+                  <div className='flex justify-start gap-2 items-start py-1 my-4'>
+                    <div>
+                      <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/robot.svg" alt="" />
+                    </div>
+                    <div className='p-3 rounded-b-lg rounded-tr-lg overflow-auto bg-gray-200 text-gray-900 mr-8'>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: parseMarkdown(generatedResults[index]),
+                        }}></div>
+                    </div>
+                  </div>
+                </>
+
+              )
+            })
+          }
+          {/* {sendMsg && <div className='flex justify-end gap-2 items-start my-4'>
             <div className='p-3 rounded-b-lg rounded-tl-lg overflow-auto bg-green-300 text-gray-900 ml-8'>
               <p>{sendMsg}</p>
             </div>
@@ -93,7 +123,7 @@ export default function Chat() {
                   __html: parseMarkdown(generatedResults),
                 }}></div>
             </div>
-          </div>}
+          </div>} */}
         </div>
         <div className='relative'>
           <textarea
