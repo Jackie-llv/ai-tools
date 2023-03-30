@@ -10,6 +10,9 @@ interface MsgInfo {
 }
 
 const parseMarkdown = (text: string, streaming = false) => {  
+  if (!text) {
+    return;
+  }
   text = text?.trim()
   let cursorAdded = false
   // workaround for incomplete code, closing the block if it's not closed
