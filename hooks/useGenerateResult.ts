@@ -8,11 +8,10 @@ type params = {
 export const useGenerateResult = () => {
   const [generatedResults, setGeneratedResults] = useState<string[]>([])
   async function generate(body: params[]) {
-    // setGeneratedResults('')
-
+    // setGeneratedResults('')    
     body.forEach((item, index) => {
       if (item.role === 'assistant' && !item.content) {
-        item.content = generatedResults[index - 1]
+        item.content = generatedResults[index - 2]
       }
     })
 

@@ -1,14 +1,27 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { useGenerateResult } from '@/hooks/useGenerateResult'
 import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
-
+import type { GetServerSideProps } from 'next'
 
 type MsgInfo = {
   content: string
   role: string
+}
+
+export const getServerSideProps: GetServerSideProps<{ id: string }> = async ({ params }) => {
+  const id = params?.id
+
+  if (!id) {
+    return { notFound: true } as any
+  }
+
+  return {
+    props: {
+      id,
+    },
+  }
 }
 
 const parseMarkdown = (text: string, streaming = false) => {  
@@ -40,29 +53,25 @@ const parseMarkdown = (text: string, streaming = false) => {
   return DOMPurify.sanitize(parsed)
 }
 
-export default function Chat() {
-  const router = useRouter()
-  const { id } = router.query
-
+export default function Chat(params: { id: string}) {
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sendMsg, setSendMsg] = useState<string[]>([])
+  const [sendMsg, setSendMsg] = useState<string[]>([`接下来请开始${params.id}阶段的面试`])
   const [msgList, setMsgList] = useState<MsgInfo[]>([])
   const { generatedResults, generate } = useGenerateResult()
 
   useEffect(() => {
     if (loading) return
+    
     setLoading(true)
-    setSendMsg([`接下来请开始${id}阶段的面试`])
     generate([
-      { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${id}相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道题，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续问下一道。如果我表示我不知道答案，那么你就直接告诉我，然后再问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题，并且你需要不停的问我问题，直到我说结束，不用回答好的，直接开始）`},
-      { role: 'user', content: `接下来请开始${id}阶段的面试`}
+      { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${params.id}相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道题，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续问下一道。如果我表示我不知道答案，那么你就直接告诉我，然后再问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题，并且你需要不停的问我问题，直到我说结束，不用回答好的，直接开始）`},
+      { role: 'user', content: `接下来请开始${params.id}阶段的面试`}
     ]).then(() => {
       setTimeout(() => {
-        console.log(generatedResults);
         setMsgList([
-          { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${id}相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道题，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续问下一道。如果我表示我不知道答案，那么你就直接告诉我，然后再问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题，并且你需要不停的问我问题，直到我说结束，不用回答好的，直接开始）`},
-          { role: 'user', content: `接下来请开始${id}阶段的面试`},
+          { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${params.id}相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道题，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续问下一道。如果我表示我不知道答案，那么你就直接告诉我，然后再问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题，并且你需要不停的问我问题，直到我说结束，不用回答好的，直接开始）`},
+          { role: 'user', content: `接下来请开始${params.id}阶段的面试`},
           { role: 'assistant', content: generatedResults[generatedResults.length - 1] }
         ])
         setLoading(false);
@@ -99,7 +108,7 @@ export default function Chat() {
         <p className='text-3xl font-medium mb-1'>ChatGPT</p>
         <p className='text-gray-500'>Talk to ChatGPT</p>
         <div className='py-8'>
-          {
+          {/* {
             generatedResults.map((item, index) => {
               return (
                 <>
@@ -125,8 +134,8 @@ export default function Chat() {
                 </>
               )
             })
-          }
-          {/* {
+          } */}
+          {
             sendMsg.map((item, index) => {
               return (
                 <>
@@ -138,7 +147,7 @@ export default function Chat() {
                       <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/user.svg" alt="" />
                     </div>
                   </div>
-                  <div className='flex justify-start gap-2 items-start py-1 my-4'>
+                  {generatedResults[index] && <div className='flex justify-start gap-2 items-start py-1 my-4'>
                     <div>
                       <img className='w-7 h-7 rounded-full mx-auto border max-w-none' src="/robot.svg" alt="" />
                     </div>
@@ -148,12 +157,12 @@ export default function Chat() {
                           __html: parseMarkdown(generatedResults[index]),
                         }}></div>
                     </div>
-                  </div>
+                  </div>}
                 </>
 
               )
             })
-          } */}
+          }
         </div>
         <div className='relative'>
           <textarea
