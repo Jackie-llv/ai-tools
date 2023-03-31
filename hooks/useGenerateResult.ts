@@ -25,6 +25,8 @@ export const useGenerateResult = () => {
 
     if (!response.ok) {
       if (response.status === 429) {
+        console.log('每天10次调用机会，请明天再来！！！');
+        
         toast('每天10次调用机会，请明天再来！！！')
         return
       } else {
