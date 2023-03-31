@@ -106,13 +106,16 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>AI-INTERVIEW</title>
-        <meta name="description" content="AI模拟面试" />
+        <title>黑马程序员AI模拟面试</title>
+        <meta name="description" content="黑马程序员AI模拟面试" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='pt-8 pb-8 md:pt-14 lg:pt-24 px-8 md:px-28 lg:px-36'>
-        <p className='text-3xl font-medium mb-1'>AI面试</p>
+        <div>
+          <img src="/logo.png" alt="" className='mb-4' />
+          <span className='text-3xl font-medium mb-1'>黑马程序员AI模拟面试</span>
+        </div>
         <div className='py-8'>
           {/* {
             generatedResults.map((item, index) => {
