@@ -76,6 +76,8 @@ export default function Home() {
         ])
         setLoading(false);
       }, 0)
+    }).finally(() => {
+      setLoading(false);
     })
   }, [])
   
@@ -84,7 +86,7 @@ export default function Home() {
       return;
     }
     const msgs = [...sendMsg] 
-    const list = [...msgList] // 1-s 2-u 3-a 4-u 5-a 6-s 7-a 8-u 9-a 10-s 11-a 12-u
+    const list = [...msgList] // 1-s 2-u 3-a 4-u 5-a 6-u 7-a
     setLoading(true)
     msgs.push(inputValue)
     list.push({ role: 'user', content: inputValue })
@@ -93,6 +95,7 @@ export default function Home() {
     // 反馈
     await generate(list)
     list.push({ role: 'assistant', content: generatedResults[generatedResults.length - 1] })
+    console.log(generatedResults[generatedResults.length - 1])
     // list.push({ role: 'system', content: '请继续出题' })
     // 继续
     // await generate(list)

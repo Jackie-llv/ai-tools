@@ -92,6 +92,8 @@ export default function Chat() {
     setInputValue('')
     // 反馈
     await generate(list)
+    console.log(generatedResults[generatedResults.length - 1]);
+    
     list.push({ role: 'assistant', content: generatedResults[generatedResults.length - 1] })
     // list.push({ role: 'system', content: '请继续出题' })
     // 继续
