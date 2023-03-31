@@ -53,6 +53,7 @@ export default function Chat() {
   useEffect(() => {
     if (loading) return
     setLoading(true)
+    setSendMsg([`接下来请开始${id}阶段的面试`])
     generate([
       { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${id}相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道题，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续问下一道。如果我表示我不知道答案，那么你就直接告诉我，然后再问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题，并且你需要不停的问我问题，直到我说结束，不用回答好的，直接开始）`},
       { role: 'user', content: `接下来请开始${id}阶段的面试`}
@@ -62,7 +63,7 @@ export default function Chat() {
         setMsgList([
           { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${id}相关的面试题，如果你认为我回答正确，那么就给一个正面的回答并且继续问下一道题，如果回答错了，那么请纠正，并告诉我正确答案，然后再继续问下一道。如果我表示我不知道答案，那么你就直接告诉我，然后再问下一道题，接下来就直接开始，请你出第一道题（注意：接下来的过程中问的所有的题都只是html阶段的题，并且你需要不停的问我问题，直到我说结束，不用回答好的，直接开始）`},
           { role: 'user', content: `接下来请开始${id}阶段的面试`},
-          { role: 'assistant', content: '' }
+          { role: 'assistant', content: generatedResults[generatedResults.length - 1] }
         ])
         setLoading(false);
       }, 0)
