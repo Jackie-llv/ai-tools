@@ -14,7 +14,7 @@ export const useGenerateResult = () => {
     console.log(body);
     
     body.forEach((item, index) => {
-      if (item.role === 'assistant' && !item.content) {
+      if (item.role === 'assistant') {
         item.content = tempRes.shift() as string
       }
     })
