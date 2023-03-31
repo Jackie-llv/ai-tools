@@ -8,10 +8,6 @@ export const config = {
 const handler = async (req: NextRequest): Promise<Response> => {
   const params = await req.json()  
 
-  // if (!params.userInput) {
-  //   return new Response('Invalid user input', { status: 400 })
-  // }
-
   const payload: OpenAIStreamPayload = {
     model: 'gpt-3.5-turbo',
     messages: params,
