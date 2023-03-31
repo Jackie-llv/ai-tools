@@ -3,26 +3,26 @@ import { useState, useEffect } from 'react'
 import { useGenerateResult } from '@/hooks/useGenerateResult'
 import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
-import type { GetServerSideProps } from 'next'
+// import type { GetServerSideProps } from 'next'
 
 type MsgInfo = {
   content: string
   role: string
 }
 
-export const getServerSideProps: GetServerSideProps<{ id: string }> = async ({ params }) => {
-  const id = params?.id
+// export const getServerSideProps: GetServerSideProps<{ id: string }> = async ({ params }) => {
+//   const id = params?.id
 
-  if (!id) {
-    return { notFound: true } as any
-  }
+//   if (!id) {
+//     return { notFound: true } as any
+//   }
 
-  return {
-    props: {
-      id,
-    },
-  }
-}
+//   return {
+//     props: {
+//       id,
+//     },
+//   }
+// }
 
 const parseMarkdown = (text: string, streaming = false) => {  
   if (!text) {
@@ -53,10 +53,10 @@ const parseMarkdown = (text: string, streaming = false) => {
   return DOMPurify.sanitize(parsed)
 }
 
-export default function Chat(params: { id: string}) {
+export default function Chat() {
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sendMsg, setSendMsg] = useState<string[]>([`接下来请开始${params.id}阶段的面试`])
+  const [sendMsg, setSendMsg] = useState<string[]>([`接下来请开始面试`])
   const [msgList, setMsgList] = useState<MsgInfo[]>([])
   const { generatedResults, generate } = useGenerateResult()
 
