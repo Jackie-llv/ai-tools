@@ -65,13 +65,13 @@ export default function Chat(params: { id: string}) {
     
     setLoading(true)
     generate([
-      { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${params.id}相关的面试题，如果你认为我回答正确，那么你就给我一个正面的反馈，如果回答错了，那么请纠正，并告诉我正确答案。如果我表示我不知道答案，那么你就直接告诉我答案。接下来就直接开始，请注意你需要每次都出不一样的题目来问我`},
-      { role: 'user', content: `接下来请开始${params.id}阶段的面试`}
+      { role: 'system', content: `在前端面试中，一般是面试官会不断的问一些前端相关的面试题，面试者进行回答，如果回答正确，面试官就开始问下一道题，如果回答错误，面试官就会给一个反馈并说出正确答案，那么现在你是一个前端面试官，我是面试者，接下来我们就开始来模拟面试`},
+      { role: 'user', content: `接下来请开始面试`}
     ]).then(() => {
       setTimeout(() => {
         setMsgList([
-          { role: 'system', content: `你现在是一个前端面试官，接下来我们来模拟面试，现在请你问我前端面试题中${params.id}相关的面试题，如果你认为我回答正确，那么你就给我一个正面的反馈，如果回答错了，那么请纠正，并告诉我正确答案。如果我表示我不知道答案，那么你就直接告诉我答案。接下来就直接开始，请注意你需要每次都出不一样的题目来问我`},
-          { role: 'user', content: `接下来请开始${params.id}阶段的面试`},
+          { role: 'system', content: `在前端面试中，一般是面试官会不断的问一些前端相关的面试题，面试者进行回答，如果回答正确，面试官就开始问下一道题，如果回答错误，面试官就会给一个反馈并说出正确答案，那么现在你是一个前端面试官，我是面试者，接下来我们就开始来模拟面试`},
+          { role: 'user', content: `接下来请开始面试`},
           { role: 'assistant', content: generatedResults[generatedResults.length - 1] }
         ])
         setLoading(false);
@@ -83,8 +83,8 @@ export default function Chat(params: { id: string}) {
     if (loading) {
       return;
     }
-    const msgs = [...sendMsg]
-    const list = [...msgList] // 1-s 2-u 3-a 4-u 5-a 6-s 7-a
+    const msgs = [...sendMsg] 
+    const list = [...msgList] // 1-s 2-u 3-a 4-u 5-a 6-s 7-a 8-u 9-a 10-s 11-a 12-u
     setLoading(true)
     msgs.push(inputValue)
     list.push({ role: 'user', content: inputValue })
@@ -93,9 +93,9 @@ export default function Chat(params: { id: string}) {
     // 反馈
     await generate(list)
     list.push({ role: 'assistant', content: generatedResults[generatedResults.length - 1] })
-    list.push({ role: 'system', content: '请继续出题' })
+    // list.push({ role: 'system', content: '请继续出题' })
     // 继续
-    await generate(list)
+    // await generate(list)
     setMsgList([...list])
     setLoading(false)
   }
@@ -163,7 +163,6 @@ export default function Chat(params: { id: string}) {
                     </div>
                   </div>}
                 </>
-
               )
             })
           }
