@@ -26,7 +26,7 @@ export const useGenerateResult = () => {
     if (!response.ok) {
       if (response.status === 429) {
         console.log('每天3次调用机会，请明天再来！！！');
-        toast.error('每天3次调用机会，请明天再来！！！')
+        toast('每天3次调用机会，请明天再来！！！')
         return
       } else {
         throw new Error(response.statusText)
