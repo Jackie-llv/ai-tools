@@ -3,26 +3,11 @@ import { useState, useEffect } from 'react'
 import { useGenerateResult } from '@/hooks/useGenerateResult'
 import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
-// import type { GetServerSideProps } from 'next'
 
 type MsgInfo = {
   content: string
   role: string
 }
-
-// export const getServerSideProps: GetServerSideProps<{ id: string }> = async ({ params }) => {
-//   const id = params?.id
-
-//   if (!id) {
-//     return { notFound: true } as any
-//   }
-
-//   return {
-//     props: {
-//       id,
-//     },
-//   }
-// }
 
 const parseMarkdown = (text: string, streaming = false) => {  
   if (!text) {
