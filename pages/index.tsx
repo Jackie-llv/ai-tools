@@ -71,7 +71,7 @@ export default function Home() {
       return;
     }
     const msgs = [...sendMsg] 
-    const list = [...msgList] // 1-s 2-u 3-a 4-u 5-a 6-u 7-a
+    const list = [...msgList]
     setLoading(true)
     msgs.push(inputValue)
     list.push({ role: 'user', content: inputValue })
