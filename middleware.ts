@@ -4,7 +4,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.fixedWindow(20, '1 d'),
+  limiter: Ratelimit.fixedWindow(12, '1 d'),
   analytics: true,
 })
 
