@@ -99,7 +99,7 @@ export default function Home() {
       <main className='pt-8 pb-8 md:pt-14 lg:pt-24 px-8 md:px-28 lg:px-36'>
         <div>
           <img src="/logo.png" alt="" className='mb-4' />
-          <span className='text-3xl font-medium mb-1'>黑马程序员AI模拟面试</span>
+          <span className='text-3xl font-medium mb-1'>黑马程序员AI模拟面试(测试)</span>
         </div>
         <div className='py-8'>
           {/* {

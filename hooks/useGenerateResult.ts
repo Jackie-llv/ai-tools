@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 type params = {
   content: string
@@ -9,9 +10,6 @@ export const useGenerateResult = () => {
   const [generatedResults, setGeneratedResults] = useState<string[]>([])
   async function generate(body: params[]) {
     let tempRes = [...generatedResults]
-    
-    console.log(tempRes);
-    console.log(body);
     
     body.forEach((item, index) => {
       if (item.role === 'assistant') {
@@ -26,7 +24,13 @@ export const useGenerateResult = () => {
     })
 
     if (!response.ok) {
-      throw new Error(response.statusText)
+      if (response.status === 429) {
+        console.log('每天3次调用机会，请明天再来！！！');
+        toast('每天3次调用机会，请明天再来！！！')
+        return
+      } else {
+        throw new Error(response.statusText)
+      }
     }
 
     const data = response.body
